@@ -1,2 +1,5 @@
 import { drizzle } from 'drizzle-orm/neon-http';
-const const db = drizzle(process.env.NEXT_PUBLIC_DATABASE_URL);
+
+const db = drizzle(process.env.NEXT_PUBLIC_DATABASE_URL);
+
+export { db };
