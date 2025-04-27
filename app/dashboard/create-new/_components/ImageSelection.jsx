@@ -1,0 +1,35 @@
+"use client"
+import Image from 'next/image'
+import React, { useState } from 'react'
+
+function ImageSelection() {
+    const [file,setFile]=useState();
+    const onFileSelected=(event)=>{
+        console.log(event.target.files[0])
+        setFile(event.target.files[0])
+    }
+  return (
+    <div>
+        <label>Select Image for Transformation</label>
+        <div className='mt-3'>
+            <label htmlFor='upload-image'> 
+                {/* backticks on next div because of using template literals */}
+                <div className={`p-20 border rounded-xl border-dotted flex 
+                    justify-center border-purple-500 bg-slate-200 cursor-pointer 
+                    hover:shadow-lg ${file&&'p-0 bg-white'}`}>
+                    {!file? <Image src={'/imageupload.png'} width={70} height={70} alt='upload image'/>
+                    :<Image src={URL.createObjectURL(file)} width={300} height={300} 
+                    className='w-[300px] h-[300px] object-cover' alt='uploaded image' />}
+                </div>
+            </label>
+            <input type="file" accept='image/*'
+            id="upload-image"
+            style={{display:'none'}}
+            onChange={onFileSelected}
+            /> 
+        </div>
+    </div>
+  )
+}
+
+export default ImageSelection
