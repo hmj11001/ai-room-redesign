@@ -3,6 +3,8 @@ import React from 'react'
 import ImageSelection from './_components/imageSelection'
 import RoomType from './_components/RoomType'
 import DesignType from './_components/DesignType'
+import AdditionalReq from './_components/AdditionalReq'
+import { Button } from '@/components/ui/button'
 
 function CreateNew() {
 
@@ -25,8 +27,10 @@ const onHandleInputChange=(value,fieldName)=>{
             {/* Design Type */}
             <DesignType selectedDesignType={(value)=>onHandleInputChange(value, 'designType')}/>
             {/* Additional Requirement TextArea (optional) */}
-
+            <AdditionalReq additionalRequirementInput={(value)=>onHandleInputChange(value, 'additionalRequirement')}/>
             {/* Button To Generate Image */}
+            <Button className='mt-5 bg-purple-600'>Generate</Button>
+            <p className='text-sm text-gray-400 mt-3 mb-52'>NOTE: 1 Credit will be used to design the room</p>
         </div>
         </div>    
     </div>

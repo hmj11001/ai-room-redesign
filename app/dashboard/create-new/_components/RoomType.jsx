@@ -7,7 +7,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 
-function RoomType(selectedRoomType) {
+function RoomType({selectedRoomType}) {
   return (
     <div>
         <label className='text-gray-500'>Select Room Category</label>

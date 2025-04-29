@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React, { useState } from 'react'
 
-function DesignType(selectedDesignType) {
+function DesignType({selectedDesignType}) {
     const Designs=[
         {
             name: 'Modern',

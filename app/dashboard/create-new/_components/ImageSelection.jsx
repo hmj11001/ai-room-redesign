@@ -11,7 +11,7 @@ function ImageSelection(selectedImage) {
     }
   return (
     <div>
-        <label>Select Image for Transformation</label>
+        <label className='text-gray-500'>Select Image for Transformation</label>
         <div className='mt-3'>
             <label htmlFor='upload-image'> 
                 {/* backticks on next div because of using template literals */}
