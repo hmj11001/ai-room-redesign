@@ -17,7 +17,7 @@ function DesignType({selectedDesignType}) {
         },
         {
             name: 'Minimalist',
-            image: '/modern.png',
+            image: '/minimalist.png',
         },
         {
             name: 'Industrial',

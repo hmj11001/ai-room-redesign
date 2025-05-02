@@ -1,5 +1,5 @@
 "use client" 
-import React from 'react'
+import React, { useState } from 'react'
 import ImageSelection from './_components/imageSelection'
 import RoomType from './_components/RoomType'
 import DesignType from './_components/DesignType'
@@ -8,7 +8,12 @@ import { Button } from '@/components/ui/button'
 
 function CreateNew() {
 
+const [formData,setFormData]= useState([]);
 const onHandleInputChange=(value,fieldName)=>{
+  setFormData(prev=>({
+    ...prev,
+    [fieldName]:[value]
+  }))
 
 }
 
