@@ -28,19 +28,15 @@ function CreateNew() {
 
   // Generate AI Image by uploading the image and sending form data
   const GenerateAiImage = async () => {
-    try {
       const rawImageUrl = await SaveRawImageToFirebase(); // Get image URL after upload
-      const dataToSend = {
-        ...formData,
-        imageUrl: rawImageUrl // Add the image URL to the form data
-      };
-
       // Send form data to your API
-      const result = await axios.post('/api/redesign-room', dataToSend);
-      console.log(result);
-    } catch (error) {
-      console.error("Error generating AI image:", error);
-    }
+      const result = await axios.post('/api/redesign-room', {
+        imageUrl: rawImageUrl,
+        roomType: formData?.roomType,
+        designType: formData?.designType,
+        additionalReq: formData?.additionalReq
+    });
+    console.log(result.data);
   }
 
   // Upload image to Firebase Storage and get the download URL
