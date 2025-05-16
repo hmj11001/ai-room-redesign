@@ -36,7 +36,7 @@ function DesignType({selectedDesignType}) {
             {Designs.map((design,index)=>(
                 <div key={index} onClick={()=>{setSelectedOption(design.name);selectedDesignType(design.name)}}>
                     <Image src={design.image} width={100} height={100} alt='Example interior'
-                    className={`h-[100px] w-auto rounded-md hover:scale-105 transition-all cursor-pointer' ${design.name==selectedOption&&'border-2 border-purple-500 rounded-md p-1'} `}/>
+                    className={`h-[100px] w-[100px] rounded-md hover:scale-105 transition-all cursor-pointer' ${design.name==selectedOption&&'border-2 border-purple-500 rounded-md p-1'} `}/>
                     <h2>{design.name}</h2>
                     </div>
             ))}

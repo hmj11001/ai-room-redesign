@@ -8,16 +8,20 @@ import { Button } from '@/components/ui/button'
 import axios from 'axios';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { storage } from '@/config/firebaseConfig'
+import { useUser } from '@clerk/nextjs'
+import CustomLoading from './_components/CustomLoading'
 
 function CreateNew() {
   // Initialize formData as an object
+  const {user}=useUser();
   const [formData, setFormData] = useState({
     image: null,
     roomType: '',
     designType: '',
     additionalRequirement: ''
   });
-
+  const [loading,setLoading]=useState(false);
+  const [outputResult,setOutputResult]=useState();
   // Handle input changes for the form fields
   const onHandleInputChange = (value, fieldName) => {
     setFormData(prev => ({
@@ -28,15 +32,20 @@ function CreateNew() {
 
   // Generate AI Image by uploading the image and sending form data
   const GenerateAiImage = async () => {
+    setLoading(true);
       const rawImageUrl = await SaveRawImageToFirebase(); // Get image URL after upload
       // Send form data to your API
       const result = await axios.post('/api/redesign-room', {
         imageUrl: rawImageUrl,
         roomType: formData?.roomType,
         designType: formData?.designType,
-        additionalReq: formData?.additionalReq
+        additionalReq: formData?.additionalReq,
+        userEmail: user?.primaryEmailAddress?.emailAddress
     });
     console.log(result.data);
+    setOutputResult(result.data.result);
+    setLoading(false);
+    
   }
 
   // Upload image to Firebase Storage and get the download URL
@@ -94,6 +103,7 @@ function CreateNew() {
           </p>
         </div>
       </div>
+      <CustomLoading loading={loading}/>
     </div>
   );
 }
