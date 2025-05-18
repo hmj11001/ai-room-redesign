@@ -10,6 +10,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { storage } from '@/config/firebaseConfig'
 import { useUser } from '@clerk/nextjs'
 import CustomLoading from './_components/CustomLoading'
+import AiOutputDialog from '../_components/AiOutputDialog'
 
 function CreateNew() {
   // Initialize formData as an object
@@ -21,7 +22,10 @@ function CreateNew() {
     additionalRequirement: ''
   });
   const [loading,setLoading]=useState(false);
-  const [outputResult,setOutputResult]=useState();
+  const [aiOutputImage,setAiOutputImage]=useState();
+  const [openOutputDialog,setOpenOutputDialog]=useState(false);
+  const [ogImage,setOgImage]=useState();
+  // const [outputResult,setOutputResult]=useState();
   // Handle input changes for the form fields
   const onHandleInputChange = (value, fieldName) => {
     setFormData(prev => ({
@@ -40,10 +44,12 @@ function CreateNew() {
         roomType: formData?.roomType,
         designType: formData?.designType,
         additionalReq: formData?.additionalReq,
-        userEmail: user?.primaryEmailAddress?.emailAddress
+        userEmail: user?.primaryEmailAddress?.emailAddress,
+        ogImage: rawImageUrl
     });
     console.log(result.data);
-    setOutputResult(result.data.result);
+    setAiOutputImage(result.data.result); // output image url
+    setOpenOutputDialog(true);
     setLoading(false);
     
   }
@@ -66,6 +72,7 @@ function CreateNew() {
     // Get the download URL of the uploaded image
     const downloadUrl = await getDownloadURL(imageRef);
     console.log('Image URL:', downloadUrl);
+    setOgImage(downloadUrl);
     return downloadUrl;
   }
 
@@ -104,6 +111,12 @@ function CreateNew() {
         </div>
       </div>
       <CustomLoading loading={loading}/>
+      <AiOutputDialog 
+        openDialog={openOutputDialog} 
+        closeDialog={()=>setOpenOutputDialog(false)} 
+        ogImage={ogImage}
+        aiImage={aiOutputImage}
+        />
     </div>
   );
 }
