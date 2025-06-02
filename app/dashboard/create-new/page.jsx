@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import ImageSelection from './_components/imageSelection'
 import RoomType from './_components/RoomType'
 import DesignType from './_components/DesignType'
@@ -11,6 +11,9 @@ import { storage } from '@/config/firebaseConfig'
 import { useUser } from '@clerk/nextjs'
 import CustomLoading from './_components/CustomLoading'
 import AiOutputDialog from '../_components/AiOutputDialog'
+import { db } from '@/config/db'
+import { Users } from '@/config/schema'
+import { UserDetailContext } from '@/app/_context/UserDetailContext'
 
 function CreateNew() {
   // Initialize formData as an object
@@ -25,6 +28,7 @@ function CreateNew() {
   const [aiOutputImage,setAiOutputImage]=useState();
   const [openOutputDialog,setOpenOutputDialog]=useState(false);
   const [ogImage,setOgImage]=useState();
+  const {userDetail,setUserDetail}=useContext(UserDetailContext);
   // const [outputResult,setOutputResult]=useState();
   // Handle input changes for the form fields
   const onHandleInputChange = (value, fieldName) => {
@@ -48,8 +52,10 @@ function CreateNew() {
         ogImage: rawImageUrl
     });
     console.log(result.data);
+    await updateUserCredits();
     setAiOutputImage(result.data.result); // output image url
     setOpenOutputDialog(true);
+    
     setLoading(false);
     
   }
@@ -74,6 +80,20 @@ function CreateNew() {
     console.log('Image URL:', downloadUrl);
     setOgImage(downloadUrl);
     return downloadUrl;
+  }
+
+  const updateUserCredits=async()=>{
+    const result = await db.update(Users).set({
+      credits:userDetail?.credits-1
+    }).returning({id:Users.id});
+
+    if(result){
+       setUserDetail(prev=>({
+        ...prev,
+        credits:userDetail?.credits-1
+       }))
+        return result[0].id
+    }
   }
 
   return (

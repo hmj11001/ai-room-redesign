@@ -1,7 +1,12 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { PayPalButtons } from '@paypal/react-paypal-js';
+import { UserDetailContext } from '@/app/_context/UserDetailContext';
+// import { useRouter } from 'next/router';
+import { db } from '@/config/db';
+import { Users } from '@/config/schema';
+import {useRouter } from 'next/navigation';
 
 function BuyCredits() {
   const creditsOption = [
@@ -13,9 +18,23 @@ function BuyCredits() {
   ];
 
   const [selectedOption, setSelectedOption] = useState([]);
-  const onPaymentSuccess=()=>{
+  const {userDetail,setUserDetail}=useContext(UserDetailContext);
+  const router=useRouter();
+  const onPaymentSuccess=async()=>{
     console.log("Payment Successful")
-    // update user credit number
+    // update user credit number after payment
+    const result= await db.update(Users)
+    .set({
+        credits:userDetail?.credits+selectedOption?.credits
+    }).returning({id:Users.id});
+
+    if(result){
+            setUserDetail(prev=>({
+                ...prev,
+                credits:userDetail?.credits+selectedOption?.credits
+            }))
+            router.push('/dashboard');
+    }
   }
   return (
     <div className="space-y-4">
