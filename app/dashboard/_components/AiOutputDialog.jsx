@@ -15,7 +15,7 @@ import ReactBeforeSliderComponent from 'react-before-after-slider-component';
 import 'react-before-after-slider-component/dist/build.css';
 
 
-function AiOutputDialog({ openDialog,closeDialog,ogImage,aiImage }) {
+function AiOutputDialog({ openDialog, closeDialog, ogImage, aiImage }) {
     return (
         <AlertDialog open={openDialog}>
             <AlertDialogContent>
@@ -23,17 +23,16 @@ function AiOutputDialog({ openDialog,closeDialog,ogImage,aiImage }) {
                     <AlertDialogTitle>Result</AlertDialogTitle>
                     <ReactBeforeSliderComponent
                     firstImage={{
-                        imageUrl:aiImage
+                        imageUrl: aiImage
                     }}
                     secondImage={{
-                        imageUrl:ogImage
+                        imageUrl: ogImage
                     }}
                     />
-                    <Button onClick={()=>closeDialog(false)}>Close</Button>
+                    <Button onClick={() => closeDialog(false)}>Close</Button>
                 </AlertDialogHeader>
             </AlertDialogContent>
         </AlertDialog>
-
     )
 }
 
