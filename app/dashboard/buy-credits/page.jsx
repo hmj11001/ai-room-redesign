@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { PayPalButtons } from '@paypal/react-paypal-js';
 
 function BuyCredits() {
   const creditsOption = [
@@ -11,8 +12,11 @@ function BuyCredits() {
     { credits: 100, amount: 9.99 }
   ];
 
-  const [selectedOption, setSelectedOption] = useState(null);
-
+  const [selectedOption, setSelectedOption] = useState([]);
+  const onPaymentSuccess=()=>{
+    console.log("Payment Successful")
+    // update user credit number
+  }
   return (
     <div className="space-y-4">
       <h2 className='font-bold text-2xl'>Buy More Credits</h2>
@@ -35,6 +39,27 @@ function BuyCredits() {
             <h3 className='font-medium text-purple-600'>${item.amount}</h3>
           </div>
         ))}
+      </div>
+
+      <div className='mt-20'>
+        {selectedOption?.amount&&
+            <PayPalButtons style={{ layout: "horizontal" }} 
+                onApprove={()=>onPaymentSuccess()}
+                onCancel={()=>console.log("Payment Cancelled")}
+                createOrder={(data,actions)=>{
+                    return actions?.order.create({
+                        purchase_units:[
+                            {
+                                amount:{
+                                    value:selectedOption?.amount?.toFixed(2),
+                                    currency_code:'USD'
+                                }
+                            }
+                        ]
+                    })
+                }}
+            />
+            }
       </div>
     </div>
   );
