@@ -11,8 +11,10 @@ function Header() {
   return (
     <div className='p-5 shadow-sm flex justify-between items-center'>   {/*creates the line under the header to separate sections*/}
         <div className='flex gap-2 items-center'>
+          <Link href="/dashboard" className='flex items-center gap-2'>
         <Image src={'/logo.svg'} width={40} height={40} alt="logo"/>
         <h2 className='font-bold text-lg'>AI Room Makeover</h2>
+        </Link>
         </div>
         <Link href="/dashboard/buy-credits">
         <Button variant="ghost" className="rounded-full text-purple-600">Buy More Credits</Button>
